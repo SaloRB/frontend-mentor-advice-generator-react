@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+// Dependencies
+import { useEffect, useState } from 'react'
+
+// Styles
+import './App.css'
+
+// Components
+import Button from './components/Button'
+import Container from './components/Container'
+import Content from './components/Content'
+import Divider from './components/Divider'
+import Loading from './components/Loading'
+import Title from './components/Title'
+
+// Utilities
+import fetchAdvice from './utils/fetchAdvice'
 
 function App() {
+  const [id, setId] = useState('')
+  const [text, setText] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    fetchAdvice(setLoading, setId, setText)
+  }, [])
+
+  if (loading) {
+    return <Loading />
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Container>
+      <Title id={id} />
+      <Content text={text} />
+      <Divider />
+      <Button setLoading={setLoading} setId={setId} setText={setText} />
+    </Container>
+  )
 }
 
-export default App;
+export default App
